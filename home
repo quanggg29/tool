@@ -1,0 +1,18 @@
+import requests, os
+
+print("""
+====================================
+1 => Check User Tiktok Live/Die
+2 => Tds Facebook
+3 => Ttc Facebook
+====================================""")
+o = int(input("=> "))
+if o == 1:
+    os.system("cls" if os.name == "nt" else "clear")
+    exec(requests.get("https://raw.githubusercontent.com/quanggg29/tool/main/tiktok").text)
+elif o == 2:
+    print("Chưa có đâu")
+elif o == 3:
+    print("Chưa có đâu")
+else:
+    print("Mù chữ hả")
