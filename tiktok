@@ -1,0 +1,75 @@
+import requests, datetime, os
+from fake_useragent import UserAgent
+from colorama import Fore, init
+
+ua = UserAgent()
+init()
+s = requests.Session()
+
+def check(user):
+    s.headers.update({
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+    'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+    'cache-control': 'max-age=0',
+    'priority': 'u=0, i',
+    'referer': 'https://www.google.com/',
+    'sec-ch-ua': '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Windows"',
+    'sec-fetch-dest': 'document',
+    'sec-fetch-mode': 'navigate',
+    'sec-fetch-site': 'same-origin',
+    'sec-fetch-user': '?1',
+    'upgrade-insecure-requests': '1',
+    'user-agent': ua.random,
+})
+    rq = s.get("https://www.tiktok.com/@"+user)
+    if rq.status_code == 200:
+        try:
+            status = rq.text.split('"statusCode":')[1].split(",")[0]
+        except:
+            return "error"
+        if status == "0":
+            follower = rq.text.split('"followerCount":')[1].split(',')[0]
+            following = rq.text.split('"followingCount":')[1].split(',')[0]
+            tim = rq.text.split('"heartCount":')[1].split(',')[0]
+            vd = rq.text.split('"videoCount":')[1].split(',')[0]
+            time = rq.text.split('"createTime":')[1].split(',')[0]
+            timereg = datetime.datetime.fromtimestamp(int(time))
+            return follower, following, tim, vd, timereg
+        else:
+            return "ban"
+    else:
+        return "error"
+
+if __name__ == "__main__":
+    try:
+        with open("user.txt", mode='r') as k:
+            a = k.readlines()
+    except Exception as w:
+        print(f"Loi: {w}")
+    for i in a:
+        user = i.strip()
+        ch = check(user)
+        if ch == "ban":
+            follower = "None"
+            following = "None"
+            tim = "None"
+            vd = "None"
+            timereg = "None"
+            o = "Die"
+            mau = Fore.RED
+        elif ch == "error":
+            follower = "None"
+            following = "None"
+            tim = "None"
+            vd = "None"
+            timereg = "None"
+            o = "Error"
+            mau = Fore.RED
+        else:
+            o = "Live"
+            follower, following, tim, vd, timereg = ch
+            mau = Fore.GREEN
+        a = "{:<5} | {:<22} | Follower : {:<5} | Following : {:<5} | Tim : {:<5} | Video : {:<5} | Time Reg : {:<20}".format(o, user, follower, following, tim, vd, str(timereg))
+        print(f"{mau}{a}")
