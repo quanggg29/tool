@@ -1,7 +1,7 @@
 import requests, datetime, os
 from fake_useragent import UserAgent
 from colorama import Fore, init
-
+os.system("cls" if os.name == "nt" else "clear")
 ua = UserAgent()
 init()
 s = requests.Session()
@@ -48,28 +48,29 @@ if __name__ == "__main__":
             a = k.readlines()
     except Exception as w:
         print(f"Loi: {w}")
-    for i in a:
-        user = i.strip()
-        ch = check(user)
-        if ch == "ban":
-            follower = "None"
-            following = "None"
-            tim = "None"
-            vd = "None"
-            timereg = "None"
-            o = "Die"
-            mau = Fore.RED
-        elif ch == "error":
-            follower = "None"
-            following = "None"
-            tim = "None"
-            vd = "None"
-            timereg = "None"
-            o = "Error"
-            mau = Fore.RED
-        else:
-            o = "Live"
-            follower, following, tim, vd, timereg = ch
-            mau = Fore.GREEN
-        a = "{:<5} | {:<22} | Follower : {:<5} | Following : {:<5} | Tim : {:<5} | Video : {:<5} | Time Reg : {:<20}".format(o, user, follower, following, tim, vd, str(timereg))
-        print(f"{mau}{a}")
+    else:
+        for i in a:
+            user = i.strip()
+            ch = check(user)
+            if ch == "ban":
+                follower = "None"
+                following = "None"
+                tim = "None"
+                vd = "None"
+                timereg = "None"
+                o = "Die"
+                mau = Fore.RED
+            elif ch == "error":
+                follower = "None"
+                following = "None"
+                tim = "None"
+                vd = "None"
+                timereg = "None"
+                o = "Error"
+                mau = Fore.RED
+            else:
+                o = "Live"
+                follower, following, tim, vd, timereg = ch
+                mau = Fore.GREEN
+            a = "{:<5} | {:<22} | Follower : {:<5} | Following : {:<5} | Tim : {:<5} | Video : {:<5} | Time Reg : {:<20}".format(o, user, follower, following, tim, vd, str(timereg))
+            print(f"{mau}{a}")
