@@ -1,7 +1,7 @@
 import requests, datetime, os
 from fake_useragent import UserAgent
 from colorama import Fore, init
-os.system("cls" if os.name == "nt" else "clear")
+
 ua = UserAgent()
 init()
 s = requests.Session()
